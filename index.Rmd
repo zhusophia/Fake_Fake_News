@@ -4,7 +4,19 @@ description: |
   If you clicked on this link, guess my project was a success
 site: distill::distill_website
 ---
+## Introduction
+Alas, what have you stumbled into? 
 
+# Goals 
+Discover how to make the optimal fake news title, or basically, what makes a fake news article good?
+
+Checklist:
+1. What words do they use? What topics do they talk about? 
+2. What about the length of the sentence? 
+
+### Details 
+How can I analyze fake news titles? 
+Just because I think that the wording of a headline is crucial, is that actually true? 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
@@ -25,7 +37,7 @@ titledata <- read.csv("newstitle1.csv")
 paged_table(titledata)
 ```
 
-### First Investigation: Most popular words
+### Determining the Most Popular Words
  
 <div>
 After going through ~7900 headlines, these are the most popular words! It's extremely fascinating, I know. 
@@ -75,7 +87,32 @@ labs(title = "Most Common Words in Fake News Headlines (Edited)",
      subtitle = "Painfully obvious what year this is from", y = "Amount of Times it has Appeared in a Headline", x = "Word", caption = "Source: BuzzFeed News")
 ```
 <div>
-Now, this just SCREAMS 2018. Let's get away from all the specific events that happened this year (mainly just the election) and see what other interesting stuff we can find, so that it's belivable any time of the year
+Now, this just SCREAMS 2018. Let's get away from all the specific events that happened this year (mainly just the election) and see what other interesting stuff we can find, so that it's believable any time of the year
 </div> 
 
-  
+```{r}
+titledata <- read.csv("newstitle1.csv")
+removedata <- titledata %>%
+  select(title, category) %>%
+  slice(1:7900) %>%
+  mutate(title = strsplit(as.character(title), " ")) %>%
+  unnest(title) %>%
+  group_by(title) %>%
+  summarize(total = n()) %>%
+  arrange(desc(total)) %>%
+  slice(1:50)
+
+newdata2 <- removedata[c(16, 17, 25, 28, 29, 33, 35, 44, 45, 47),]
+ggplot(newdata2, mapping = aes(x = reorder(title, total), y = total))+
+  geom_col(fill = "darkseagreen3")+
+  theme_classic()+
+  coord_flip()+
+labs(title = "Most Common Words in Fake News Headlines (Non-Politics)",
+     subtitle = "Missing Children Cases on the Rise?", y = "Amount of Times it has Appeared in a Headline", x = "Word", caption = "Source: BuzzFeed News")
+```
+
+<div>
+Alright, now we can work with this. Maybe something like "BREAKING NEWS: FBI says they found 'Man Child' in the woods!"
+</div> 
+
+# Investigation 2: Length of Header 
