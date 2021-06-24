@@ -10,9 +10,10 @@ Welcome to my very scientific analysis of fake news titles, as I go on a quest t
 # Goals 
 Discover how to make the optimal fake news title, or basically, what makes a fake news article good?
 
-Checklist
-  + How long are the titles? How short/long do they need to be to capture your attention?  
-  + What words do they use? What topics do they talk about? 
+Checklist:
+
+1. How long are the titles? How short/long do they need to be to capture your attention?  
+2. What words do they use? What topics do they talk about? 
 
 By analyzing a sample of ~7900 headlines, I will attempt to answer these questions. 
 
