@@ -1,5 +1,5 @@
 ---
-title: "BREAKING NEWS: FBI says they found 'Man Child' in the woods!"
+title: "BREAKING NEWS: FBI Says They Found 'Man Child' In The Woods!"
 description: |
   If you clicked on this link, it means that my project was a success
 site: distill::distill_website

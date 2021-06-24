@@ -10,5 +10,5 @@ navbar:
     - text: "About"
       href: about.html
     - text: "Article - Published in New Hork Times"
-      href: newhorktimes.html
+      href: NewHorkTimes.html
 output: distill::distill_article
