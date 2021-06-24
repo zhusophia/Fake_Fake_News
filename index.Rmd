@@ -35,7 +35,8 @@ Here is a short sample of data if you want to scroll through, sorted by the amou
 
 ```{r, table}
 titledata <- read.csv("newstitle1.csv")
-paged_table(titledata)
+paged_table(titledata) 
+titledata$fb_engagement <- (as.integer(titledata$fb_engagement))
 ```
 
 ### Determining the Most Popular Words
@@ -125,6 +126,8 @@ First, we calculate how many characters are in each header! Here's a small sampl
 ```{r}
 title_length_data <- titledata %>%
   select(title, fb_engagement) %>%
+  drop_na() %>% 
+  mutate(as.numeric(as.character(fb_engagement))) %>% 
   mutate(title_length = str_length(title))  %>% 
   group_by(title_length) %>% 
   mutate(total = n()) %>% 
@@ -139,7 +142,9 @@ paged_table(title_length_data)
 Nice. Let's get a better representation of this data, shall we? 
 
 ```{r}
-ggplot(title_length_data, mapping = aes(x = title_length, y = total, fill = fb_engagement))+
-  geom_point()
+ggplot(title_length_data, mapping = aes(x = title_length, y = total, color = fb_engagement))+
+  geom_point()+
+  scale_colour_gradient(low = "red", 
+                       high = "blue")
 ```
 
