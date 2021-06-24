@@ -1,5 +1,5 @@
 ---
-title: "title"
+title: "Analyzing Fake News"
 description: |
   If you clicked on this link, guess my project was a success
 site: distill::distill_website
@@ -23,6 +23,7 @@ library(tidyverse)
 library(tidyr)
 library(dplyr)
 library(rmarkdown)
+library(knitr)
 ```
 
 ## Breaking down the Data
@@ -116,3 +117,29 @@ Alright, now we can work with this. Maybe something like "BREAKING NEWS: FBI say
 </div> 
 
 # Investigation 2: Length of Header 
+
+Now we can't forget about the lenght of the title. If it's too short, you won't be able to clickbait people into the article, but if it's too long, people won't even read it, which is not ideal :thumbs:
+
+First, we calculate how many characters are in each header! Here's a small sample: 
+
+```{r}
+title_length_data <- titledata %>%
+  select(title, fb_engagement) %>%
+  mutate(title_length = str_length(title))  %>% 
+  group_by(title_length) %>% 
+  mutate(total = n()) %>% 
+  group_by(total) %>% 
+  slice(1:10)
+```
+```{r}
+paged_table(title_length_data)
+
+```
+
+Nice. Let's get a better representation of this data, shall we? 
+
+```{r}
+ggplot(title_length_data, mapping = aes(x = title_length, y = total, fill = fb_engagement))+
+  geom_point()
+```
+
