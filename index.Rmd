@@ -5,7 +5,7 @@ description: |
 site: distill::distill_website
 ---
 ## Introduction
-Welcome to my very scientific analysis of fake news titles, as I go on a quest to create fake fake news. This investigation follows my journey of  analyzing the length of news article titles and their subjects to create a fake news article of my own. If you wish to see the process, scroll down. If you wish to see the news article, (title was created using data, article was written by a professional journalist that just happens to have the same name), please click [here](www.google.com)
+Welcome to my very scientific analysis of fake news titles, as I go on a quest to create fake fake news. This investigation follows my journey of  analyzing the length of news article titles and their subjects to create a fake news article of my own. If you wish to see the process, scroll down. If you wish to see the news article, (title was created using data, article was written by a professional journalist that just happens to have the same name), please click [here](NewHorkTimes.Rmd)
 
 # Goals 
 Discover how to make the optimal fake news title, or basically, what makes a fake news article good?
