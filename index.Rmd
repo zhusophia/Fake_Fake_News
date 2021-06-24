@@ -10,14 +10,14 @@ Welcome to my very scientific analysis of fake news titles, as I go on a quest t
 # Goals 
 Discover how to make the optimal fake news title, or basically, what makes a fake news article good?
 
-Checklist:
+Checklist
   + How long are the titles? How short/long do they need to be to capture your attention?  
   + What words do they use? What topics do they talk about? 
 
 By analyzing a sample of ~7900 headlines, I will attempt to answer these questions. 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE) #loading libraries
 library(tidyverse)
 library(tidyr)
 library(dplyr)
@@ -31,9 +31,9 @@ Here is a short sample of data if you want to scroll through, sorted by the amou
 
 
 ```{r, table}
-titledata <- read.csv("newstitleint.csv")
-paged_table(titledata) %>% 
- mutate_at(vars(fb_engagement),
+titledata <- read.csv("newstitleint.csv") #reading csv
+paged_table(titledata) %>% #displaying as table 
+ mutate_at(vars(fb_engagement), #makes column a int for graphs
             as.integer)
  
 ```
@@ -49,16 +49,16 @@ First step of our journey into creating our own fake news title is figuring out 
 
 First, we calculate how many characters are in each header! Here's a small sample of some of the shortest titles, and how effective they were for getting Facebook likes: 
 
-```{r}
-title_length_data <- titledata %>%
+```{r, calculating character length}
+title_length_data <- titledata %>% 
   select(title, fb_engagement) %>%
-  drop_na() %>% 
-  mutate(title_length = str_length(title))  %>% 
+  drop_na() %>% #dropping na values
+  mutate(title_length = str_length(title))  %>%  #finding length of string
   group_by(title_length) %>% 
-  arrange(title_length)
+  arrange(title_length) #arranging from shortest title to longest
 ```
-```{r}
-paged_table(title_length_data)
+```{r, table 2 length}
+paged_table(title_length_data) #displaying data on table
 
 ```
 <div> 
@@ -66,17 +66,17 @@ OH NO NOT LARRY THE CAT :((((
 </div>
 Anyways, let's get a better representation of this data, shall we? 
 
-```{r}
-plotlygraph <- ggplot(title_length_data, mapping = aes(x = title_length, y = fb_engagement, color = fb_engagement, text = paste("Title:", title)))+
-  geom_point(alpha = 0.5)+
-  scale_color_gradient(low = "red", 
+```{r, ggplot}
+plotlygraph <- ggplot(title_length_data, mapping = aes(x = title_length, y = fb_engagement, color = fb_engagement, text = paste("Title:", title)))+ 
+  geom_point(alpha = 0.5)+ #transparency 
+  scale_color_gradient(low = "red", #gradient legend
                        high = "blue")+
 labs(title = "Correlation between Title Length and Popularity on Facebook", subtitle = "Guess people like 40-75 character titles :)", 
      x = "Length of Title (Characters)", y = "Amount of Facebook Likes", color = "Facebook Likes", 
      caption = "Source: Buzzfeed News 2018")
 ```
-```{r}
-ggplotly(plotlygraph, tooltip = c("text", "x"))
+```{r, display ggplotly}
+ggplotly(plotlygraph, tooltip = c("text", "x")) #adjusting ggplotly labels
 ```
 
 By looking at the graph, it is clear the length of the news articles should be between 47-84, as those seem to perform the best.This data is supported by the fact that mean length of titles is around 67 characters. I mean, usually if everyone's doing it... you should do it too right? 
@@ -84,7 +84,7 @@ By looking at the graph, it is clear the length of the news articles should be b
 Regardless, that settles it! The ideal fake news title must be around 67 characters. 
 
 <div> 
-<hr>
+<hr> 
 </hr>
 </div> 
 
@@ -99,15 +99,14 @@ After a long, and extremely tiring process of going through thousands of article
 I know what you're thinking, this is clearly the MOST fascinating graph you have ever seen.
 
 ```{r, first graph}
-titledata %>%
+titledata %>% #splitting title data again
   select(title, category) %>%
-  slice(1:7900) %>% 
-  mutate(title = strsplit(as.character(title), " ")) %>% 
+  mutate(title = strsplit(as.character(title), " ")) %>% #splitting by space to seperate each word
   unnest(title) %>% 
   group_by(title) %>% 
-  summarize(total = n()) %>% 
+  summarize(total = n()) %>% #finding how many other times the word has been said
   arrange(desc(total)) %>% 
-  slice(1:10) %>% 
+  slice(1:10) %>% #Only showing 10 on graph
 
 ggplot(mapping = aes(x = reorder(title, total), y = total))+
   geom_col(fill = "darkseagreen3")+
@@ -120,11 +119,10 @@ labs(title = "Most Common Words in Fake News Headlines",
 Hmm.... Let's  clean this data up by removing duplicates, punctuation, and prepositions from it! That'd give us a better idea of what people enjoy to read about, and allow us to find the best subject to center our article around!
 </div>
 
-```{r}
-titledata <- read.csv("newstitle1.csv")
+```{r, politic graph}
+titledata <- read.csv("newstitle1.csv") #reentering data
 removedata <- titledata %>%
   select(title, category) %>%
-  slice(1:7900) %>%
   mutate(title = strsplit(as.character(title), " ")) %>%
   unnest(title) %>%
   group_by(title) %>%
@@ -132,7 +130,7 @@ removedata <- titledata %>%
   arrange(desc(total)) %>%
   slice(1:50)
 
-newdata <- removedata[c(4, 15, 16, 17, 21, 25, 28, 29, 30, 37),]
+newdata <- removedata[c(4, 15, 16, 17, 21, 25, 28, 29, 30, 37),] #removing all preopositions
 ggplot(newdata, mapping = aes(x = reorder(title, total), y = total))+
   geom_col(fill = "darkseagreen3")+
   theme_classic()+
@@ -145,19 +143,18 @@ Oh, this isn't fun. This just SCREAMS 2018. Let's get away from all the specific
 
 </div> 
 
-```{r}
+```{r, final graph}
 titledata <- read.csv("newstitle1.csv")
 removedata <- titledata %>%
   select(title, category) %>%
-  slice(1:7900) %>%
   mutate(title = strsplit(as.character(title), " ")) %>%
   unnest(title) %>%
-  group_by(title) %>%
+  group_by(title) %>% #repeat
   summarize(total = n()) %>%
   arrange(desc(total)) %>%
   slice(1:50)
 
-newdata2 <- removedata[c(16, 17, 25, 28, 29, 33, 35, 44, 45, 47),]
+newdata2 <- removedata[c(16, 17, 25, 28, 29, 33, 35, 44, 45, 47),] #removing politics 
 ggplot(newdata2, mapping = aes(x = reorder(title, total), y = total))+
   geom_col(fill = "darkseagreen3")+
   theme_classic()+
