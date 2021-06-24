@@ -34,9 +34,11 @@ Here is a short sample of data if you want to scroll through, sorted by the amou
 
 
 ```{r, table}
-titledata <- read.csv("newstitle1.csv")
-paged_table(titledata) 
-titledata$fb_engagement <- (as.integer(titledata$fb_engagement))
+titledata <- read.csv("newstitleint.csv")
+paged_table(titledata) %>% 
+ mutate_at(vars(fb_engagement),
+            as.integer)
+ 
 ```
 
 ### Determining the Most Popular Words
@@ -142,9 +144,9 @@ paged_table(title_length_data)
 Nice. Let's get a better representation of this data, shall we? 
 
 ```{r}
-ggplot(title_length_data, mapping = aes(x = title_length, y = total, color = fb_engagement))+
+ggplot(title_length_data, mapping = aes(x = title_length, y = total, color = as.numeric(fb_engagement)))+
   geom_point()+
   scale_colour_gradient(low = "red", 
-                       high = "blue")
+                       high = "green")
 ```
 
