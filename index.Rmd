@@ -5,14 +5,14 @@ description: |
 site: distill::distill_website
 ---
 ## Introduction
-Welcome to my very scientific analysis of fake news titles, as I go on a quest to create fake fake news. This invesitgation follows my journey of  analyzing the length of news article titles and their subjects to create a fake news article of my own. If you wish to see the process, scroll down. If you wish to see the news article, (title was created using data, article was written by a professional journalist that just happens to have the same name), please click [here](www.google.com)
+Welcome to my very scientific analysis of fake news titles, as I go on a quest to create fake fake news. This investigation follows my journey of  analyzing the length of news article titles and their subjects to create a fake news article of my own. If you wish to see the process, scroll down. If you wish to see the news article, (title was created using data, article was written by a professional journalist that just happens to have the same name), please click [here](www.google.com)
 
 # Goals 
 Discover how to make the optimal fake news title, or basically, what makes a fake news article good?
 
 Checklist
-+ How long are the titles? How short/long do they need to be to capture your attention?  
-+ What words do they use? What topics do they talk about? 
+  1. How long are the titles? How short/long do they need to be to capture your attention?  
+  2. What words do they use? What topics do they talk about? 
 
 By analyzing a sample of ~7900 headlines, I will attempt to answer these questions. 
 
@@ -42,7 +42,7 @@ paged_table(titledata) %>%
 </hr>
 </div> 
 
-## Breaking down the Data
+## Breaking Down the Data
 # Investigation 1: Outsmarting Our Short Attention Span
 
 First step of our journey into creating our own fake news title is figuring out the the length of the title, which is VERY IMPORTANT. If it's too short, you won't be able to clickbait people into the article, but if it's too long, people won't even read it, which is not ideal. 
@@ -61,9 +61,9 @@ title_length_data <- titledata %>%
 paged_table(title_length_data)
 
 ```
-
+<div> 
 OH NO NOT LARRY THE CAT :(((( 
-<div> </div>
+</div>
 Anyways, let's get a better representation of this data, shall we? 
 
 ```{r}
@@ -79,7 +79,9 @@ labs(title = "Correlation between Title Length and Popularity on Facebook", subt
 ggplotly(plotlygraph, tooltip = c("text", "x"))
 ```
 
-This data is supported by the fact that mean length of titles is around 67 characters. Regardless, that settles it! The ideal fake news title must be around 67 characters. 
+By looking at the graph, it is clear the length of the news articles should be between 47-84, as those seem to perform the best.This data is supported by the fact that mean length of titles is around 67 characters. I mean, usually if everyone's doing it... you should do it too right? 
+
+Regardless, that settles it! The ideal fake news title must be around 67 characters. 
 
 <div> 
 <hr>
@@ -167,7 +169,7 @@ labs(title = "Most Common Words in Fake News Headlines (Non-Politics)",
 <div>
 Alright.... now we can work with this data. Considering out character limit from before, and taking the subjects that were taken from headlines.... the best fake fake news article title (proven using data) is: 
 
-# "BREAKING NEWS: FBI says they found 'Man Child' in the woods!"
+# BREAKING NEWS: FBI says they found 'Man Child' in the woods!
 </div> 
 
 
