@@ -8,3 +8,6 @@ description: |
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+Hi! My name is Sophia Zhu, a highschool student from Ontario, Canada. This is the small analysis I have conducted from fake news, using data from Buzzfeed News, and using R Studio, GGPlot, Distill and R to display my findings. 
+
+If you have any questions about my project, or would like to reach out, please contact me [here!](iceyes123@gmail.com)
