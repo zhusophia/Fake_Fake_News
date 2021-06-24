@@ -24,6 +24,7 @@ library(tidyr)
 library(dplyr)
 library(rmarkdown)
 library(knitr)
+library(plotly)
 ```
 
 ## Breaking down the Data
@@ -129,24 +130,29 @@ First, we calculate how many characters are in each header! Here's a small sampl
 title_length_data <- titledata %>%
   select(title, fb_engagement) %>%
   drop_na() %>% 
-  mutate(as.numeric(as.character(fb_engagement))) %>% 
   mutate(title_length = str_length(title))  %>% 
   group_by(title_length) %>% 
-  mutate(total = n()) %>% 
-  group_by(total) %>% 
-  slice(1:10)
+  arrange(title_length)
 ```
 ```{r}
 paged_table(title_length_data)
 
 ```
 
-Nice. Let's get a better representation of this data, shall we? 
+OH NO NOT LARRY :(((( 
+But let's get a better representation of this data, shall we? 
 
 ```{r}
-ggplot(title_length_data, mapping = aes(x = title_length, y = total, color = as.numeric(fb_engagement)))+
-  geom_point()+
-  scale_colour_gradient(low = "red", 
-                       high = "green")
+plotlygraph <- ggplot(title_length_data, mapping = aes(x = title_length, y = fb_engagement, color = fb_engagement, text = paste("Title:", title)))+
+  geom_point(alpha = 0.5)+
+  scale_color_gradient(low = "red", 
+                       high = "blue")+
+labs(title = "Correlation between Title Length and Popularity on Facebook", subtitle = "Guess people like 40-75 character titles :)", 
+     x = "Length of Title (Characters)", y = "Amount of Facebook Likes", color = "Facebook Likes", 
+     caption = "Source: Buzzfeed 2018")
 ```
+```{r}
+ggplotly(plotlygraph, tooltip = c("text", "x"))
+```
+
 
